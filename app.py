@@ -16,8 +16,8 @@ def query_data():
 @app.route("/scrape")
 def scrape():
     db.mars_col.remove({})
-    data = scrape_mars.scrape()
-    db.mars_col.insert_one(data)
+    document = scrape_mars.scrape()
+    db.mars_col.insert_one(document)
     return redirect("http://localhost:5000/", code=302)
 
 if __name__ == "__main__":

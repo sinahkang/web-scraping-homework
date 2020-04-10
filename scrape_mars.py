@@ -5,23 +5,25 @@ from selenium import webdriver
 from pprint import pprint
 
 def scrape():
-    BASE_URL = "https://mars.nasa.gov/news/"
-    FILE = "html-selenium.txt"
-    FILE_WAIT = "html-selenium-wait.txt"
+    # BASE_URL = "https://mars.nasa.gov/news/"
+    # FILE = "html-selenium.txt"
+    # FILE_WAIT = "html-selenium-wait.txt"
 
-    driver = webdriver.Firefox()
-    driver.get(BASE_URL)
-    html = driver.page_source
-    driver.implicitly_wait(10)
-    driver.close()
+    # driver = webdriver.Firefox()
+    # driver.get(BASE_URL)
+    # html = driver.page_source
+    # driver.implicitly_wait(10)
+    # driver.close()
 
-    with open(FILE_WAIT, "w+", encoding="utf-8") as f:
-        f.write(html)
-
-    news_soup = BeautifulSoup(html, "html.parser")
+    # with open(FILE_WAIT, "w+", encoding="utf-8") as f:
+    #     f.write(html)
+    
+    news_url = "https://mars.nasa.gov/news/"
+    news_html = requests.get(news_url).text
+    news_soup = BeautifulSoup(news_html, "html.parser")
 
     mars_news_title = news_soup.find("div", class_="content_title").a.text
-    mars_news_p = news_soup.find("div", class_="article_teaser_body").text
+    mars_news_p = news_soup.find("div", class_="rollover_description_inner").text
 
     image_url = "https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars"
     image_html = requests.get(image_url).text
